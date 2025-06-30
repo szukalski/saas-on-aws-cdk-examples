@@ -3,8 +3,7 @@ import { ManagedPolicy, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
-import { SoaLogGroup } from 'saas-on-aws-cdk';
-import { ServiceServer } from './service-server';
+import { ServiceServer, SoaLogGroup } from 'saas-on-aws-cdk';
 
 export class TicklesStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
