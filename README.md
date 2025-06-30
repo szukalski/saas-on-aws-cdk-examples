@@ -24,3 +24,7 @@ Destroy
 ```bash
 npx projen destroy
 ```
+
+## Testing
+
+There's usually an ```_interface.sh``` file with some test functions. Check them out!
