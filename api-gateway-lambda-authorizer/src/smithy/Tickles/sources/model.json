@@ -1,0 +1,97 @@
+{
+    "smithy": "2.0",
+    "shapes": {
+        "com.saasonaws#Hello": {
+            "type": "operation",
+            "input": {
+                "target": "com.saasonaws#HelloInput"
+            },
+            "output": {
+                "target": "com.saasonaws#HelloOutput"
+            },
+            "traits": {
+                "aws.apigateway#authorizer": "authy",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/hello"
+                }
+            }
+        },
+        "com.saasonaws#HelloInput": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.saasonaws#HelloOutput": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "smithy.api#String"
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.saasonaws#InternalServerError": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#error": "server",
+                "smithy.api#httpError": 500
+            }
+        },
+        "com.saasonaws#Tickles": {
+            "type": "service",
+            "version": "2025-05-21",
+            "operations": [
+                {
+                    "target": "com.saasonaws#Hello"
+                }
+            ],
+            "errors": [
+                {
+                    "target": "com.saasonaws#InternalServerError"
+                },
+                {
+                    "target": "smithy.framework#ValidationException"
+                }
+            ],
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "Tickles",
+                    "arnNamespace": "tickles"
+                },
+                "aws.apigateway#authorizers": {
+                    "authy": {
+                        "scheme": "smithy.api#httpApiKeyAuth",
+                        "type": "token",
+                        "uri": "PLACEHOLDER",
+                        "identitySource": "method.request.header.Authorization"
+                    }
+                },
+                "aws.apigateway#integration": {
+                    "type": "aws_proxy",
+                    "httpMethod": "POST",
+                    "uri": "PLACEHOLDER",
+                    "credentials": "PLACEHOLDER"
+                },
+                "aws.protocols#restJson1": {},
+                "smithy.api#httpApiKeyAuth": {
+                    "name": "Authorization",
+                    "in": "header"
+                },
+                "smithy.api#title": "Tickles"
+            }
+        }
+    }
+}

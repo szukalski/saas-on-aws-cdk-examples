@@ -1,0 +1,143 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Tickles",
+        "version": "2025-05-21"
+    },
+    "paths": {
+        "/hello": {
+            "post": {
+                "operationId": "Hello",
+                "responses": {
+                    "200": {
+                        "description": "Hello 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HelloResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "ValidationException 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServerError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "authy": []
+                    }
+                ],
+                "x-amazon-apigateway-integration": {
+                    "type": "aws_proxy",
+                    "httpMethod": "POST",
+                    "uri": "PLACEHOLDER",
+                    "credentials": "PLACEHOLDER"
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "HelloResponseContent": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "InternalServerErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            },
+            "ValidationExceptionField": {
+                "type": "object",
+                "description": "Describes one specific validation failure for an input member.",
+                "properties": {
+                    "path": {
+                        "type": "string",
+                        "description": "A JSONPointer expression to the structure member whose value failed to satisfy the modeled constraints."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "A detailed description of the validation failure."
+                    }
+                },
+                "required": [
+                    "message",
+                    "path"
+                ]
+            },
+            "ValidationExceptionResponseContent": {
+                "type": "object",
+                "description": "A standard error for input validation failures.\nThis should be thrown by services when a member of the input structure\nfalls outside of the modeled or documented constraints.",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "A summary of the validation failure."
+                    },
+                    "fieldList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationExceptionField"
+                        },
+                        "description": "A list of specific failures encountered while validating the input.\nA member can appear in this list more than once if it failed to satisfy multiple constraints."
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            }
+        },
+        "securitySchemes": {
+            "authy": {
+                "type": "apiKey",
+                "description": "API key authentication via the 'Authorization' header",
+                "name": "Authorization",
+                "in": "header",
+                "x-amazon-apigateway-authorizer": {
+                    "type": "token",
+                    "authorizerUri": "PLACEHOLDER",
+                    "identitySource": "method.request.header.Authorization"
+                },
+                "x-amazon-apigateway-authtype": "custom"
+            },
+            "smithy.api.httpApiKeyAuth": {
+                "type": "apiKey",
+                "description": "API key authentication via the 'Authorization' header",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "smithy.api.httpApiKeyAuth": []
+        }
+    ]
+}
