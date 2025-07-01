@@ -10,7 +10,7 @@ export class TicklesStack extends Stack {
     super(scope, id, props);
 
     const logGroup = new SoaLogGroup(this, 'LogGroup', {
-      logGroupName: 'Tickles'
+      logGroupName: '/saas/Tickles'
     });
     const serviceFunction = new NodejsFunction(this, 'ServiceFunction', {
       runtime: Runtime.NODEJS_20_X,
@@ -46,7 +46,7 @@ export class TicklesStack extends Stack {
       openApiPath: openApiPath,
       serviceAuthorizer: serviceAuthorizer,
       serviceFunction: serviceFunction,
-      serviceName: 'Tickles',
+      serviceName: serviceName,
     });
   }
 }

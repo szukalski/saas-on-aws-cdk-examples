@@ -1,0 +1,619 @@
+{
+    "smithy": "2.0",
+    "shapes": {
+        "com.saasonaws#Auth": {
+            "type": "operation",
+            "input": {
+                "target": "com.saasonaws#AuthInput"
+            },
+            "output": {
+                "target": "com.saasonaws#AuthOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.saasonaws#ForbiddenError"
+                },
+                {
+                    "target": "com.saasonaws#ResourceNotFoundError"
+                },
+                {
+                    "target": "com.saasonaws#UnauthorizedError"
+                }
+            ],
+            "traits": {
+                "smithy.api#auth": [],
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/auth"
+                }
+            }
+        },
+        "com.saasonaws#AuthInput": {
+            "type": "structure",
+            "members": {
+                "username": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "password": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#references": [
+                    {
+                        "resource": "com.saasonaws#User"
+                    }
+                ]
+            }
+        },
+        "com.saasonaws#AuthOutput": {
+            "type": "structure",
+            "members": {
+                "idToken": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "accessToken": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "refreshToken": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "expiresIn": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.saasonaws#CreateUser": {
+            "type": "operation",
+            "input": {
+                "target": "com.saasonaws#CreateUserInput"
+            },
+            "output": {
+                "target": "com.saasonaws#CreateUserOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.saasonaws#ForbiddenError"
+                },
+                {
+                    "target": "com.saasonaws#UnauthorizedError"
+                }
+            ],
+            "traits": {
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/user"
+                },
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.saasonaws#CreateUserInput": {
+            "type": "structure",
+            "members": {
+                "username": {
+                    "target": "smithy.api#String"
+                },
+                "role": {
+                    "target": "com.saasonaws#UserRole"
+                },
+                "password": {
+                    "target": "smithy.api#String"
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.saasonaws#CreateUserOutput": {
+            "type": "structure",
+            "members": {
+                "username": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "role": {
+                    "target": "com.saasonaws#UserRole",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.saasonaws#DeleteUser": {
+            "type": "operation",
+            "input": {
+                "target": "com.saasonaws#DeleteUserInput"
+            },
+            "output": {
+                "target": "com.saasonaws#DeleteUserOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.saasonaws#ForbiddenError"
+                },
+                {
+                    "target": "com.saasonaws#ResourceNotFoundError"
+                },
+                {
+                    "target": "com.saasonaws#UnauthorizedError"
+                }
+            ],
+            "traits": {
+                "smithy.api#http": {
+                    "method": "DELETE",
+                    "uri": "/user/{username}"
+                },
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.saasonaws#DeleteUserInput": {
+            "type": "structure",
+            "members": {
+                "username": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.saasonaws#DeleteUserOutput": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.saasonaws#ForbiddenError": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 403
+            }
+        },
+        "com.saasonaws#Identity": {
+            "type": "service",
+            "version": "2025-05-21",
+            "operations": [
+                {
+                    "target": "com.saasonaws#Auth"
+                }
+            ],
+            "errors": [
+                {
+                    "target": "com.saasonaws#ForbiddenError"
+                },
+                {
+                    "target": "com.saasonaws#InternalServerError"
+                },
+                {
+                    "target": "com.saasonaws#ResourceNotFoundError"
+                },
+                {
+                    "target": "com.saasonaws#UnauthorizedError"
+                },
+                {
+                    "target": "smithy.framework#ValidationException"
+                }
+            ],
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "Identity",
+                    "arnNamespace": "execute-api"
+                },
+                "aws.apigateway#integration": {
+                    "type": "aws_proxy",
+                    "httpMethod": "POST",
+                    "uri": "PLACEHOLDER",
+                    "credentials": "PLACEHOLDER"
+                },
+                "aws.auth#sigv4": {
+                    "name": "execute-api"
+                },
+                "aws.protocols#restJson1": {},
+                "smithy.api#title": "Identity"
+            }
+        },
+        "com.saasonaws#InternalServerError": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#error": "server",
+                "smithy.api#httpError": 500
+            }
+        },
+        "com.saasonaws#ListUser": {
+            "type": "operation",
+            "input": {
+                "target": "com.saasonaws#ListUserInput"
+            },
+            "output": {
+                "target": "com.saasonaws#ListUserOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.saasonaws#ForbiddenError"
+                },
+                {
+                    "target": "com.saasonaws#UnauthorizedError"
+                }
+            ],
+            "traits": {
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/user"
+                },
+                "smithy.api#readonly": {}
+            }
+        },
+        "com.saasonaws#ListUserInput": {
+            "type": "structure",
+            "members": {
+                "nextToken": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#httpQuery": "nextToken"
+                    }
+                },
+                "maxResults": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#httpQuery": "maxResults"
+                    }
+                },
+                "role": {
+                    "target": "com.saasonaws#UserRole",
+                    "traits": {
+                        "smithy.api#httpQuery": "role"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.saasonaws#ListUserOutput": {
+            "type": "structure",
+            "members": {
+                "items": {
+                    "target": "com.saasonaws#UserList"
+                },
+                "nextToken": {
+                    "target": "smithy.api#String"
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.saasonaws#ReadUser": {
+            "type": "operation",
+            "input": {
+                "target": "com.saasonaws#ReadUserInput"
+            },
+            "output": {
+                "target": "com.saasonaws#ReadUserOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.saasonaws#ForbiddenError"
+                },
+                {
+                    "target": "com.saasonaws#ResourceNotFoundError"
+                },
+                {
+                    "target": "com.saasonaws#UnauthorizedError"
+                }
+            ],
+            "traits": {
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/user/{username}"
+                },
+                "smithy.api#readonly": {}
+            }
+        },
+        "com.saasonaws#ReadUserInput": {
+            "type": "structure",
+            "members": {
+                "username": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.saasonaws#ReadUserOutput": {
+            "type": "structure",
+            "members": {
+                "username": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "role": {
+                    "target": "com.saasonaws#UserRole",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "tenantId": {
+                    "target": "com.saasonaws#TenantId"
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.saasonaws#ResourceNotFoundError": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "An error indicating a resource could not be found",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 404
+            }
+        },
+        "com.saasonaws#TenantId": {
+            "type": "string"
+        },
+        "com.saasonaws#UnauthorizedError": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "smithy.api#String"
+                }
+            },
+            "traits": {
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 401
+            }
+        },
+        "com.saasonaws#UpdateUser": {
+            "type": "operation",
+            "input": {
+                "target": "com.saasonaws#UpdateUserInput"
+            },
+            "output": {
+                "target": "com.saasonaws#UpdateUserOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.saasonaws#ForbiddenError"
+                },
+                {
+                    "target": "com.saasonaws#ResourceNotFoundError"
+                },
+                {
+                    "target": "com.saasonaws#UnauthorizedError"
+                }
+            ],
+            "traits": {
+                "smithy.api#http": {
+                    "method": "PUT",
+                    "uri": "/user/{username}"
+                },
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.saasonaws#UpdateUserInput": {
+            "type": "structure",
+            "members": {
+                "username": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "role": {
+                    "target": "com.saasonaws#UserRole"
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.saasonaws#UpdateUserOutput": {
+            "type": "structure",
+            "members": {
+                "username": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "role": {
+                    "target": "com.saasonaws#UserRole",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.saasonaws#Url": {
+            "type": "string"
+        },
+        "com.saasonaws#User": {
+            "type": "resource",
+            "identifiers": {
+                "username": {
+                    "target": "smithy.api#String"
+                }
+            },
+            "properties": {
+                "role": {
+                    "target": "com.saasonaws#UserRole"
+                },
+                "password": {
+                    "target": "smithy.api#String"
+                },
+                "tenantId": {
+                    "target": "com.saasonaws#TenantId"
+                }
+            },
+            "create": {
+                "target": "com.saasonaws#CreateUser"
+            },
+            "read": {
+                "target": "com.saasonaws#ReadUser"
+            },
+            "update": {
+                "target": "com.saasonaws#UpdateUser"
+            },
+            "delete": {
+                "target": "com.saasonaws#DeleteUser"
+            },
+            "list": {
+                "target": "com.saasonaws#ListUser"
+            }
+        },
+        "com.saasonaws#UserList": {
+            "type": "list",
+            "member": {
+                "target": "com.saasonaws#UserSchema"
+            }
+        },
+        "com.saasonaws#UserMgmt": {
+            "type": "service",
+            "version": "2025-05-21",
+            "resources": [
+                {
+                    "target": "com.saasonaws#User"
+                }
+            ],
+            "errors": [
+                {
+                    "target": "com.saasonaws#ForbiddenError"
+                },
+                {
+                    "target": "com.saasonaws#InternalServerError"
+                },
+                {
+                    "target": "com.saasonaws#ResourceNotFoundError"
+                },
+                {
+                    "target": "com.saasonaws#UnauthorizedError"
+                },
+                {
+                    "target": "smithy.framework#ValidationException"
+                }
+            ],
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "UserMgmt",
+                    "arnNamespace": "execute-api"
+                },
+                "aws.apigateway#integration": {
+                    "type": "aws_proxy",
+                    "httpMethod": "POST",
+                    "uri": "PLACEHOLDER",
+                    "credentials": "PLACEHOLDER"
+                },
+                "aws.auth#sigv4": {
+                    "name": "execute-api"
+                },
+                "aws.protocols#restJson1": {},
+                "smithy.api#title": "UserMgmt"
+            }
+        },
+        "com.saasonaws#UserRole": {
+            "type": "enum",
+            "members": {
+                "ADMIN": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "admin"
+                    }
+                },
+                "USER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "user"
+                    }
+                }
+            }
+        },
+        "com.saasonaws#UserSchema": {
+            "type": "structure",
+            "members": {
+                "username": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "role": {
+                    "target": "com.saasonaws#UserRole",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "tenantId": {
+                    "target": "com.saasonaws#TenantId"
+                }
+            },
+            "traits": {
+                "smithy.api#references": [
+                    {
+                        "resource": "com.saasonaws#User"
+                    }
+                ]
+            }
+        }
+    }
+}
