@@ -4,8 +4,19 @@ namespace com.saasonaws
 
 use aws.api#service
 use aws.auth#sigv4
+use aws.apigateway#authorizer
+use aws.apigateway#authorizers
 use aws.protocols#restJson1
 
+@httpApiKeyAuth(name: "Authorization", in: "header")
+@authorizers(
+    authy: {
+        scheme: httpApiKeyAuth
+        type: "token"
+        uri: "PLACEHOLDER"
+        identitySource: "method.request.header.Authorization",
+    }
+)
 @title("Identity")
 @restJson1
 @aws.apigateway#integration(
@@ -16,12 +27,11 @@ use aws.protocols#restJson1
     uri: "PLACEHOLDER"
     credentials: "PLACEHOLDER"
 )
-@sigv4(name: "execute-api")
 @service(sdkId: "Identity", arnNamespace: "execute-api")
 service Identity {
     version: "2025-05-21"
     operations: [
-        Auth
+        Hello
     ]
     errors: [
         smithy.framework#ValidationException
@@ -32,41 +42,11 @@ service Identity {
     ]
 }
 
-@references([
-    {
-        resource: User
-    }
-])
-structure AuthInput for User {
-    @required
-    $username
-
-    @required
-    $password
-}
-
-@auth([])
-@http(method: "POST", uri: "/auth")
-operation Auth {
-    input: AuthInput
-
+@readonly
+@http(method: "GET", uri: "/hello")
+operation Hello {
+    input := {}
     output := {
-        @required
-        idToken: String
-
-        @required
-        accessToken: String
-
-        @required
-        refreshToken: String
-
-        @required
-        expiresIn: Integer
+        message: String
     }
-
-    errors: [
-        UnauthorizedError
-        ForbiddenError
-        ResourceNotFoundError
-    ]
 }

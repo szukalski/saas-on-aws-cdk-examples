@@ -5,26 +5,16 @@
         "version": "2025-05-21"
     },
     "paths": {
-        "/auth": {
-            "post": {
-                "operationId": "Auth",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/AuthRequestContent"
-                            }
-                        }
-                    },
-                    "required": true
-                },
+        "/hello": {
+            "get": {
+                "operationId": "Hello",
                 "responses": {
                     "200": {
-                        "description": "Auth 200 response",
+                        "description": "Hello 200 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthResponseContent"
+                                    "$ref": "#/components/schemas/HelloResponseContent"
                                 }
                             }
                         }
@@ -73,7 +63,6 @@
                         }
                     }
                 },
-                "security": [],
                 "x-amazon-apigateway-integration": {
                     "type": "aws_proxy",
                     "httpMethod": "POST",
@@ -85,43 +74,13 @@
     },
     "components": {
         "schemas": {
-            "AuthRequestContent": {
+            "HelloResponseContent": {
                 "type": "object",
                 "properties": {
-                    "username": {
-                        "type": "string"
-                    },
-                    "password": {
+                    "message": {
                         "type": "string"
                     }
-                },
-                "required": [
-                    "password",
-                    "username"
-                ]
-            },
-            "AuthResponseContent": {
-                "type": "object",
-                "properties": {
-                    "idToken": {
-                        "type": "string"
-                    },
-                    "accessToken": {
-                        "type": "string"
-                    },
-                    "refreshToken": {
-                        "type": "string"
-                    },
-                    "expiresIn": {
-                        "type": "number"
-                    }
-                },
-                "required": [
-                    "accessToken",
-                    "expiresIn",
-                    "idToken",
-                    "refreshToken"
-                ]
+                }
             },
             "InternalServerErrorResponseContent": {
                 "type": "object",
@@ -194,18 +153,17 @@
             }
         },
         "securitySchemes": {
-            "aws.auth.sigv4": {
+            "smithy.api.httpApiKeyAuth": {
                 "type": "apiKey",
-                "description": "AWS Signature Version 4 authentication",
+                "description": "API key authentication via the 'Authorization' header",
                 "name": "Authorization",
-                "in": "header",
-                "x-amazon-apigateway-authtype": "awsSigv4"
+                "in": "header"
             }
         }
     },
     "security": [
         {
-            "aws.auth.sigv4": []
+            "smithy.api.httpApiKeyAuth": []
         }
     ]
 }

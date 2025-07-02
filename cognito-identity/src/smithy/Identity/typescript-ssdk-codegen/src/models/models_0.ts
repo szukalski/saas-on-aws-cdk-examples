@@ -3,114 +3,11 @@ import {
   ServiceException as __BaseException,
   CompositeValidator as __CompositeValidator,
   MultiConstraintValidator as __MultiConstraintValidator,
+  NoOpValidator as __NoOpValidator,
   RequiredValidator as __RequiredValidator,
   ValidationFailure as __ValidationFailure,
 } from "@aws-smithy/server-common";
 import { ExceptionOptionType as __ExceptionOptionType } from "@smithy/smithy-client";
-
-/**
- * @public
- */
-export interface AuthInput {
-  username: string | undefined;
-  password: string | undefined;
-}
-
-export namespace AuthInput {
-  const memberValidators : {
-    username?: __MultiConstraintValidator<string>,
-    password?: __MultiConstraintValidator<string>,
-  } = {};
-  /**
-   * @internal
-   */
-  export const validate = (obj: AuthInput, path: string = ""): __ValidationFailure[] => {
-    function getMemberValidator<T extends keyof typeof memberValidators>(member: T): NonNullable<typeof memberValidators[T]> {
-      if (memberValidators[member] === undefined) {
-        switch (member) {
-          case "username": {
-            memberValidators["username"] = new __CompositeValidator<string>([
-              new __RequiredValidator(),
-            ]);
-            break;
-          }
-          case "password": {
-            memberValidators["password"] = new __CompositeValidator<string>([
-              new __RequiredValidator(),
-            ]);
-            break;
-          }
-        }
-      }
-      return memberValidators[member]!!;
-    }
-    return [
-      ...getMemberValidator("username").validate(obj.username, `${path}/username`),
-      ...getMemberValidator("password").validate(obj.password, `${path}/password`),
-    ];
-  }
-}
-
-/**
- * @public
- */
-export interface AuthOutput {
-  idToken: string | undefined;
-  accessToken: string | undefined;
-  refreshToken: string | undefined;
-  expiresIn: number | undefined;
-}
-
-export namespace AuthOutput {
-  const memberValidators : {
-    idToken?: __MultiConstraintValidator<string>,
-    accessToken?: __MultiConstraintValidator<string>,
-    refreshToken?: __MultiConstraintValidator<string>,
-    expiresIn?: __MultiConstraintValidator<number>,
-  } = {};
-  /**
-   * @internal
-   */
-  export const validate = (obj: AuthOutput, path: string = ""): __ValidationFailure[] => {
-    function getMemberValidator<T extends keyof typeof memberValidators>(member: T): NonNullable<typeof memberValidators[T]> {
-      if (memberValidators[member] === undefined) {
-        switch (member) {
-          case "idToken": {
-            memberValidators["idToken"] = new __CompositeValidator<string>([
-              new __RequiredValidator(),
-            ]);
-            break;
-          }
-          case "accessToken": {
-            memberValidators["accessToken"] = new __CompositeValidator<string>([
-              new __RequiredValidator(),
-            ]);
-            break;
-          }
-          case "refreshToken": {
-            memberValidators["refreshToken"] = new __CompositeValidator<string>([
-              new __RequiredValidator(),
-            ]);
-            break;
-          }
-          case "expiresIn": {
-            memberValidators["expiresIn"] = new __CompositeValidator<number>([
-              new __RequiredValidator(),
-            ]);
-            break;
-          }
-        }
-      }
-      return memberValidators[member]!!;
-    }
-    return [
-      ...getMemberValidator("idToken").validate(obj.idToken, `${path}/idToken`),
-      ...getMemberValidator("accessToken").validate(obj.accessToken, `${path}/accessToken`),
-      ...getMemberValidator("refreshToken").validate(obj.refreshToken, `${path}/refreshToken`),
-      ...getMemberValidator("expiresIn").validate(obj.expiresIn, `${path}/expiresIn`),
-    ];
-  }
-}
 
 /**
  * @public
@@ -125,22 +22,6 @@ export class ForbiddenError extends __BaseException {
       ...opts
     });
     Object.setPrototypeOf(this, ForbiddenError.prototype);
-  }
-}
-
-/**
- * @public
- */
-export class InternalServerError extends __BaseException {
-  readonly name: "InternalServerError" = "InternalServerError";
-  readonly $fault: "server" = "server";
-  constructor(opts: __ExceptionOptionType<InternalServerError, __BaseException>) {
-    super({
-      name: "InternalServerError",
-      $fault: "server",
-      ...opts
-    });
-    Object.setPrototypeOf(this, InternalServerError.prototype);
   }
 }
 
@@ -174,6 +55,22 @@ export class UnauthorizedError extends __BaseException {
       ...opts
     });
     Object.setPrototypeOf(this, UnauthorizedError.prototype);
+  }
+}
+
+/**
+ * @public
+ */
+export class InternalServerError extends __BaseException {
+  readonly name: "InternalServerError" = "InternalServerError";
+  readonly $fault: "server" = "server";
+  constructor(opts: __ExceptionOptionType<InternalServerError, __BaseException>) {
+    super({
+      name: "InternalServerError",
+      $fault: "server",
+      ...opts
+    });
+    Object.setPrototypeOf(this, InternalServerError.prototype);
   }
 }
 
@@ -254,5 +151,62 @@ export class ValidationException extends __BaseException {
     });
     Object.setPrototypeOf(this, ValidationException.prototype);
     this.fieldList = opts.fieldList;
+  }
+}
+
+/**
+ * @public
+ */
+export interface HelloInput {
+}
+
+export namespace HelloInput {
+  const memberValidators : {
+  } = {};
+  /**
+   * @internal
+   */
+  export const validate = (obj: HelloInput, path: string = ""): __ValidationFailure[] => {
+    function getMemberValidator<T extends keyof typeof memberValidators>(member: T): NonNullable<typeof memberValidators[T]> {
+      if (memberValidators[member] === undefined) {
+        switch (member) {
+        }
+      }
+      return memberValidators[member]!!;
+    }
+    return [
+    ];
+  }
+}
+
+/**
+ * @public
+ */
+export interface HelloOutput {
+  message?: string | undefined;
+}
+
+export namespace HelloOutput {
+  const memberValidators : {
+    message?: __MultiConstraintValidator<string>,
+  } = {};
+  /**
+   * @internal
+   */
+  export const validate = (obj: HelloOutput, path: string = ""): __ValidationFailure[] => {
+    function getMemberValidator<T extends keyof typeof memberValidators>(member: T): NonNullable<typeof memberValidators[T]> {
+      if (memberValidators[member] === undefined) {
+        switch (member) {
+          case "message": {
+            memberValidators["message"] = new __NoOpValidator();
+            break;
+          }
+        }
+      }
+      return memberValidators[member]!!;
+    }
+    return [
+      ...getMemberValidator("message").validate(obj.message, `${path}/message`),
+    ];
   }
 }

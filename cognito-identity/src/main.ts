@@ -1,5 +1,6 @@
 import { App, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import { AuthenticationStack } from './authentication/authentication.cdk';
 import { IdentityStack } from './identity/identity.cdk';
 
 export class MyStack extends Stack {
@@ -18,6 +19,11 @@ const devEnv = {
 
 const app = new App();
 
-new IdentityStack(app, 'Identity', { env: devEnv });
+const identity = new IdentityStack(app, 'Identity', { env: devEnv });
+new AuthenticationStack(app, 'Authentication', {
+  userPool: identity.userPool,
+  userPoolClient: identity.userPoolClient,
+  env: devEnv,
+});
 
 app.synth();

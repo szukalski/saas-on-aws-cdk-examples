@@ -1,10 +1,10 @@
 #!/bin/bash
 
-get_identity_api_url() {
+get_authentication_api_url() {
     local url=$(aws cloudformation describe-stacks \
-        --stack-name Identity \
+        --stack-name Authentication \
         --region eu-central-1 \
-        --query 'Stacks[0].Outputs[?OutputKey==`IdentityApiUrl`].OutputValue' \
+        --query 'Stacks[0].Outputs[?OutputKey==`AuthenticationApiUrl`].OutputValue' \
         --output text 2>/dev/null)
     echo "${url%/}"
 }
@@ -30,15 +30,15 @@ get_user_pool_client_id() {
 auth() {
     local username="${1:-dave}"
     local password="${2:-Password123!}"
-    local identity_url=$(get_identity_api_url)
+    local authentication_url=$(get_authentication_api_url)
     
     if [[ -z "$username" || -z "$password" ]]; then
         echo "Usage: auth <username> <password>"
         return 1
     fi
     
-    if [[ -z "$identity_url" ]]; then
-        echo "Error: Could not retrieve Identity API URL from CloudFormation"
+    if [[ -z "$authentication_url" ]]; then
+        echo "Error: Could not retrieve Authentication API URL from CloudFormation"
         return 1
     fi
     
@@ -57,7 +57,7 @@ EOF
     local response=$(curl -s -X POST \
         -H "Content-Type: application/json" \
         -d "$json_payload" \
-        "$identity_url/auth")
+        "$authentication_url/auth")
     
     if [ $? -eq 0 ]; then
         echo "Authentication response:"

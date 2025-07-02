@@ -1,2 +1,2 @@
 // smithy-typescript generated code
-export * from "./Auth";
+export * from "./Hello";

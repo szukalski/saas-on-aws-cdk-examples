@@ -27,7 +27,7 @@
     "@stylistic/eslint-plugin": "^2",
     "@types/aws-lambda": "^8.10.150",
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.0.8",
+    "@types/node": "^24.0.10",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "aws-cdk": "^2",
@@ -47,12 +47,12 @@
     "@aws-smithy/server-apigateway": "^1.0.0-alpha.10",
     "@aws-smithy/server-common": "^1.0.0-alpha.10",
     "@tsconfig/node18": "^18.2.4",
-    "aws-cdk-lib": "^2.202.0",
+    "aws-cdk-lib": "^2.203.0",
     "aws-lambda": "^1.0.7",
     "constructs": "^10.0.5",
     "jwt-decode": "^4.0.0",
     "re2-wasm": "^1.0.2",
-    "saas-on-aws-cdk": "^0.0.21"
+    "saas-on-aws-cdk": "^0.0.23"
   },
   "license": "Apache-2.0",
   "publishConfig": {

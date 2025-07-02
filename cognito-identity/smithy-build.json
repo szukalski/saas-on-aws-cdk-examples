@@ -15,6 +15,27 @@
     ]
   },
   "projections": {
+    "Authentication": {
+      "imports": [
+        "model/__global.smithy",
+        "model/authentication.smithy",
+        "model/user-mgmt.smithy"
+      ],
+      "plugins": {
+        "typescript-ssdk-codegen": {
+          "service": "com.saasonaws#Authentication",
+          "package": "@com.saasonaws/authentication-server",
+          "packageVersion": "0.0.1"
+        },
+        "openapi": {
+          "service": "com.saasonaws#Authentication",
+          "protocol": "aws.protocols#restJson1",
+          "apiGatewayType": "REST",
+          "version": "3.0.2",
+          "apiGatewayDefaults": "2023-08-11"
+        }
+      }
+    },
     "Identity": {
       "imports": [
         "model/__global.smithy",

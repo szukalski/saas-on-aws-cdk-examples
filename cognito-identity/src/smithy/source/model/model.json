@@ -2414,7 +2414,6 @@
                 }
             ],
             "traits": {
-                "smithy.api#auth": [],
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/auth"
@@ -2475,6 +2474,46 @@
             },
             "traits": {
                 "smithy.api#output": {}
+            }
+        },
+        "com.saasonaws#Authentication": {
+            "type": "service",
+            "version": "2025-05-21",
+            "operations": [
+                {
+                    "target": "com.saasonaws#Auth"
+                }
+            ],
+            "errors": [
+                {
+                    "target": "com.saasonaws#ForbiddenError"
+                },
+                {
+                    "target": "com.saasonaws#InternalServerError"
+                },
+                {
+                    "target": "com.saasonaws#ResourceNotFoundError"
+                },
+                {
+                    "target": "com.saasonaws#UnauthorizedError"
+                },
+                {
+                    "target": "smithy.framework#ValidationException"
+                }
+            ],
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "Authentication",
+                    "arnNamespace": "auth"
+                },
+                "aws.apigateway#integration": {
+                    "type": "aws_proxy",
+                    "httpMethod": "POST",
+                    "uri": "PLACEHOLDER",
+                    "credentials": "PLACEHOLDER"
+                },
+                "aws.protocols#restJson1": {},
+                "smithy.api#title": "Authentication"
             }
         },
         "com.saasonaws#CreateUser": {
@@ -2595,12 +2634,46 @@
                 "smithy.api#httpError": 403
             }
         },
+        "com.saasonaws#Hello": {
+            "type": "operation",
+            "input": {
+                "target": "com.saasonaws#HelloInput"
+            },
+            "output": {
+                "target": "com.saasonaws#HelloOutput"
+            },
+            "traits": {
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/hello"
+                },
+                "smithy.api#readonly": {}
+            }
+        },
+        "com.saasonaws#HelloInput": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.saasonaws#HelloOutput": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "smithy.api#String"
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.saasonaws#Identity": {
             "type": "service",
             "version": "2025-05-21",
             "operations": [
                 {
-                    "target": "com.saasonaws#Auth"
+                    "target": "com.saasonaws#Hello"
                 }
             ],
             "errors": [
@@ -2625,16 +2698,25 @@
                     "sdkId": "Identity",
                     "arnNamespace": "execute-api"
                 },
+                "aws.apigateway#authorizers": {
+                    "authy": {
+                        "scheme": "smithy.api#httpApiKeyAuth",
+                        "type": "token",
+                        "uri": "PLACEHOLDER",
+                        "identitySource": "method.request.header.Authorization"
+                    }
+                },
                 "aws.apigateway#integration": {
                     "type": "aws_proxy",
                     "httpMethod": "POST",
                     "uri": "PLACEHOLDER",
                     "credentials": "PLACEHOLDER"
                 },
-                "aws.auth#sigv4": {
-                    "name": "execute-api"
-                },
                 "aws.protocols#restJson1": {},
+                "smithy.api#httpApiKeyAuth": {
+                    "name": "Authorization",
+                    "in": "header"
+                },
                 "smithy.api#title": "Identity"
             }
         },

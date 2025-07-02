@@ -24,10 +24,6 @@ const getContext = async (event: APIGatewayProxyEvent): Promise<IdentityServiceC
   const context: IdentityServiceContext = {
     userPoolClientId: userPoolClientId,
     userPoolId: userPoolId,
-    credentials: {
-      accessKeyId: '',
-      secretAccessKey: '',
-    }, // No AWS credentials needed for Cognito auth
   };
   return context;
 };

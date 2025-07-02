@@ -4,6 +4,7 @@
         "com.saasonaws#Auth",
         "com.saasonaws#CreateUser",
         "com.saasonaws#DeleteUser",
+        "com.saasonaws#Hello",
         "com.saasonaws#ListUser",
         "com.saasonaws#ReadUser",
         "com.saasonaws#UpdateUser"
@@ -19,6 +20,7 @@
         "com.saasonaws#User"
     ],
     "serviceShapeIds": [
+        "com.saasonaws#Authentication",
         "com.saasonaws#Identity",
         "com.saasonaws#UserMgmt"
     ],
@@ -170,11 +172,11 @@
     "traitNames": [
         "aws.api#arnReference",
         "aws.api#service",
+        "aws.apigateway#authorizers",
         "aws.apigateway#integration",
         "aws.auth#sigv4",
         "aws.endpoints#endpointsModifier",
         "aws.protocols#restJson1",
-        "smithy.api#auth",
         "smithy.api#authDefinition",
         "smithy.api#box",
         "smithy.api#default",
@@ -184,6 +186,7 @@
         "smithy.api#error",
         "smithy.api#externalDocumentation",
         "smithy.api#http",
+        "smithy.api#httpApiKeyAuth",
         "smithy.api#httpError",
         "smithy.api#httpLabel",
         "smithy.api#httpQuery",

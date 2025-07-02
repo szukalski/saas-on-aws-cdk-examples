@@ -8,9 +8,9 @@ import {
   ValidationExceptionField,
 } from "../models/models_0";
 import {
-  AuthServerInput,
-  AuthServerOutput,
-} from "../server/operations/Auth";
+  HelloServerInput,
+  HelloServerOutput,
+} from "../server/operations/Hello";
 import {
   loadRestJsonErrorCode,
   parseJsonBody as parseBody,
@@ -29,9 +29,6 @@ import {
   HttpResponse as __HttpResponse,
 } from "@smithy/protocol-http";
 import {
-  expectNonNull as __expectNonNull,
-  expectObject as __expectObject,
-  expectString as __expectString,
   _json,
   collectBody,
   isSerializableHeaderValue,
@@ -45,10 +42,10 @@ import {
 } from "@smithy/types";
 import { calculateBodyLength } from "@smithy/util-body-length-node";
 
-export const deserializeAuthRequest = async(
+export const deserializeHelloRequest = async(
   output: __HttpRequest,
   context: __SerdeContext
-): Promise<AuthServerInput> => {
+): Promise<HelloServerInput> => {
   const contentTypeHeaderKey: string | undefined = Object.keys(output.headers).find(key => key.toLowerCase() === 'content-type');
   if (contentTypeHeaderKey != null) {
     const contentType = output.headers[contentTypeHeaderKey];
@@ -65,17 +62,12 @@ export const deserializeAuthRequest = async(
   };
   const contents: any = map({
   });
-  const data: Record<string, any> = __expectNonNull((__expectObject(await parseBody(output.body, context))), "body");
-  const doc = take(data, {
-    'password': __expectString,
-    'username': __expectString,
-  });
-  Object.assign(contents, doc);
+  await collectBody(output.body, context);
   return contents;
 }
 
-export const serializeAuthResponse = async(
-  input: AuthServerOutput,
+export const serializeHelloResponse = async(
+  input: HelloServerOutput,
   ctx: ServerSerdeContext
 ): Promise<__HttpResponse> => {
   const context: __SerdeContext = {
@@ -92,10 +84,7 @@ export const serializeAuthResponse = async(
   });
   let body: any;
   body = JSON.stringify(take(input, {
-    'accessToken': [],
-    'expiresIn': [],
-    'idToken': [],
-    'refreshToken': [],
+    'message': [],
   }));
   if (body && Object.keys(headers).map((str) => str.toLowerCase()).indexOf('content-length') === -1) {
     const length = calculateBodyLength(body);

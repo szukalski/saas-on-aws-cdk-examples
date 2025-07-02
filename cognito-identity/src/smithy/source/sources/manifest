@@ -1,3 +1,4 @@
 identity.smithy
 __global.smithy
 user-mgmt.smithy
+authentication.smithy

@@ -25,7 +25,7 @@ export class IdentityStack extends Stack {
         username: false,
         email: true,
         phone: false,
-      }
+      },
     });
     this.userPoolClient = this.userPool.addMultiTenantClient();
 

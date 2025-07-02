@@ -1,10 +1,10 @@
 // smithy-typescript generated code
 import { serializeFrameworkException } from "../protocols/Aws_restJson1";
 import {
-  Auth,
-  AuthSerializer,
-  AuthServerInput,
-} from "./operations/Auth";
+  Hello,
+  HelloSerializer,
+  HelloServerInput,
+} from "./operations/Hello";
 import {
   InternalFailureException as __InternalFailureException,
   Mux as __Mux,
@@ -42,9 +42,9 @@ import {
   toUtf8,
 } from "@smithy/util-utf8";
 
-export type IdentityServiceOperations = "Auth";
+export type IdentityServiceOperations = "Hello";
 export interface IdentityService<Context> {
-  Auth: Auth<Context>
+  Hello: Hello<Context>
 }
 const serdeContextBase = {
   base64Encoder: toBase64,
@@ -128,8 +128,8 @@ export class IdentityServiceHandler<Context> implements __ServiceHandler<Context
       return this.serializeFrameworkException(new __UnknownOperationException(), serdeContextBase);
     }
     switch (target.operation) {
-      case "Auth" : {
-        return handle(request, context, "Auth", this.serializerFactory("Auth"), this.service.Auth, this.serializeFrameworkException, AuthServerInput.validate, this.validationCustomizer);
+      case "Hello" : {
+        return handle(request, context, "Hello", this.serializerFactory("Hello"), this.service.Hello, this.serializeFrameworkException, HelloServerInput.validate, this.validationCustomizer);
       }
     }
   }
@@ -137,18 +137,18 @@ export class IdentityServiceHandler<Context> implements __ServiceHandler<Context
 
 export const getIdentityServiceHandler = <Context>(service: IdentityService<Context>): __ServiceHandler<Context, __HttpRequest, __HttpResponse> => {
   const mux = new httpbinding.HttpBindingMux<"Identity", keyof IdentityService<Context>>([
-    new httpbinding.UriSpec<"Identity", "Auth">(
-      'POST',
+    new httpbinding.UriSpec<"Identity", "Hello">(
+      'GET',
       [
-        { type: 'path_literal', value: "auth" },
+        { type: 'path_literal', value: "hello" },
       ],
       [
       ],
-      { service: "Identity", operation: "Auth" }),
+      { service: "Identity", operation: "Hello" }),
   ]);
   const serFn: (op: IdentityServiceOperations) => __OperationSerializer<IdentityService<Context>, IdentityServiceOperations, __ServiceException> = (op) => {
     switch (op) {
-      case "Auth": return new AuthSerializer();
+      case "Hello": return new HelloSerializer();
     }
   };
   const customizer: __ValidationCustomizer<IdentityServiceOperations> = (ctx, failures) => {
