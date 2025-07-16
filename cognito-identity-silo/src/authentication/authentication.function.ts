@@ -1,8 +1,8 @@
 import { convertEvent, convertVersion1Response } from '@aws-smithy/server-apigateway';
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
 import { AuthenticationServiceContext, AuthenticationServiceImpl } from './authentication';
-import { InternalServerError } from '../smithy/Identity/typescript-ssdk-codegen/src';
 import { getAuthenticationServiceHandler } from '../smithy/Authentication/typescript-ssdk-codegen/src';
+import { InternalServerError } from '../smithy/Identity/typescript-ssdk-codegen/src';
 
 const serviceHandler = getAuthenticationServiceHandler(new AuthenticationServiceImpl());
 

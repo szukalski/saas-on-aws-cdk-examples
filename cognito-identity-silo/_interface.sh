@@ -95,7 +95,7 @@ create_user() {
         --username "success+${username}@simulator.amazonses.com" \
         --user-attributes \
             Name=email,Value="success+${username}@simulator.amazonses.com" \
-            Name=custom:tenantId,Value="$tenant_id" \
+            Name=custom:tenant_id,Value="$tenant_id" \
             Name=custom:role,Value="$role" \
         --temporary-password "$password" \
         --message-action SUPPRESS \
@@ -115,7 +115,7 @@ create_user() {
         if [ $? -eq 0 ]; then
             echo "Password set successfully for user: $username"
             echo "Custom attributes set:"
-            echo "  - tenantId: $tenant_id"
+            echo "  - tenant_id: $tenant_id"
             echo "  - role: $role"
         else
             echo "Failed to set password for user: $username"

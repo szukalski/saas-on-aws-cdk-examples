@@ -56,6 +56,26 @@
           "apiGatewayDefaults": "2023-08-11"
         }
       }
+    },
+    "UserMgmt": {
+      "imports": [
+        "model/__global.smithy",
+        "model/user-mgmt.smithy"
+      ],
+      "plugins": {
+        "typescript-ssdk-codegen": {
+          "service": "com.saasonaws#UserMgmt",
+          "package": "@com.saasonaws/user-mgmt-server",
+          "packageVersion": "0.0.1"
+        },
+        "openapi": {
+          "service": "com.saasonaws#UserMgmt",
+          "protocol": "aws.protocols#restJson1",
+          "apiGatewayType": "REST",
+          "version": "3.0.2",
+          "apiGatewayDefaults": "2023-08-11"
+        }
+      }
     }
   }
 }

@@ -2856,7 +2856,7 @@
                         "smithy.api#required": {}
                     }
                 },
-                "tenantId": {
+                "tenant_id": {
                     "target": "com.saasonaws#TenantId"
                 }
             },
@@ -2977,7 +2977,7 @@
                 "password": {
                     "target": "smithy.api#String"
                 },
-                "tenantId": {
+                "tenant_id": {
                     "target": "com.saasonaws#TenantId"
                 }
             },
@@ -3031,7 +3031,16 @@
             "traits": {
                 "aws.api#service": {
                     "sdkId": "UserMgmt",
-                    "arnNamespace": "execute-api"
+                    "arnNamespace": "user-mgmt"
+                },
+                "aws.apigateway#authorizer": "authy",
+                "aws.apigateway#authorizers": {
+                    "authy": {
+                        "scheme": "smithy.api#httpApiKeyAuth",
+                        "type": "token",
+                        "uri": "PLACEHOLDER",
+                        "identitySource": "method.request.header.Authorization"
+                    }
                 },
                 "aws.apigateway#integration": {
                     "type": "aws_proxy",
@@ -3039,10 +3048,11 @@
                     "uri": "PLACEHOLDER",
                     "credentials": "PLACEHOLDER"
                 },
-                "aws.auth#sigv4": {
-                    "name": "execute-api"
-                },
                 "aws.protocols#restJson1": {},
+                "smithy.api#httpApiKeyAuth": {
+                    "name": "Authorization",
+                    "in": "header"
+                },
                 "smithy.api#title": "UserMgmt"
             }
         },
@@ -3078,7 +3088,7 @@
                         "smithy.api#required": {}
                     }
                 },
-                "tenantId": {
+                "tenant_id": {
                     "target": "com.saasonaws#TenantId"
                 }
             },

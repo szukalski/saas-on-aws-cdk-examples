@@ -13,7 +13,7 @@ export const handler: APIGatewayProxyWithLambdaAuthorizerHandler<MultiTenantAuth
   console.log(`Received event: ${JSON.stringify(event)}`);
 
   const context: TicklesServiceContext = {
-    tenantId: event.requestContext.authorizer.tenantId,
+    tenant_id: event.requestContext.authorizer.tenant_id,
     role: event.requestContext.authorizer.role,
   };
 

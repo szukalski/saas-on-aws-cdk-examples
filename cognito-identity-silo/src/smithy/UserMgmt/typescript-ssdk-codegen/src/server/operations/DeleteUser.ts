@@ -1,7 +1,7 @@
 // smithy-typescript generated code
 import {
-  AuthInput,
-  AuthOutput,
+  DeleteUserInput,
+  DeleteUserOutput,
   ForbiddenError,
   InternalServerError,
   ResourceNotFoundError,
@@ -9,8 +9,8 @@ import {
   ValidationException,
 } from "../../models/models_0";
 import {
-  deserializeAuthRequest,
-  serializeAuthResponse,
+  deserializeDeleteUserRequest,
+  serializeDeleteUserResponse,
   serializeForbiddenErrorError,
   serializeFrameworkException,
   serializeInternalServerErrorError,
@@ -18,7 +18,7 @@ import {
   serializeUnauthorizedErrorError,
   serializeValidationExceptionError,
 } from "../../protocols/Aws_restJson1";
-import { IdentityService } from "../IdentityService";
+import { UserMgmtService } from "../UserMgmtService";
 import {
   ServerSerdeContext,
   ServiceException as __BaseException,
@@ -57,38 +57,38 @@ import {
   toUtf8,
 } from "@smithy/util-utf8";
 
-export type Auth<Context> = __Operation<AuthServerInput, AuthServerOutput, Context>
+export type DeleteUser<Context> = __Operation<DeleteUserServerInput, DeleteUserServerOutput, Context>
 
-export interface AuthServerInput extends AuthInput {}
-export namespace AuthServerInput {
+export interface DeleteUserServerInput extends DeleteUserInput {}
+export namespace DeleteUserServerInput {
   /**
    * @internal
    */
-  export const validate: (obj: Parameters<typeof AuthInput.validate>[0]) => __ValidationFailure[] = AuthInput.validate;
+  export const validate: (obj: Parameters<typeof DeleteUserInput.validate>[0]) => __ValidationFailure[] = DeleteUserInput.validate;
 }
-export interface AuthServerOutput extends AuthOutput {}
+export interface DeleteUserServerOutput extends DeleteUserOutput {}
 
-export type AuthErrors = UnauthorizedError | ForbiddenError | ResourceNotFoundError | ValidationException | InternalServerError
+export type DeleteUserErrors = ResourceNotFoundError | UnauthorizedError | ForbiddenError | ValidationException | InternalServerError
 
-export class AuthSerializer implements __OperationSerializer<IdentityService<any>, "Auth", AuthErrors> {
-  serialize = serializeAuthResponse;
-  deserialize = deserializeAuthRequest;
+export class DeleteUserSerializer implements __OperationSerializer<UserMgmtService<any>, "DeleteUser", DeleteUserErrors> {
+  serialize = serializeDeleteUserResponse;
+  deserialize = deserializeDeleteUserRequest;
 
-  isOperationError(error: any): error is AuthErrors {
-    const names: AuthErrors['name'][] = ["UnauthorizedError", "ForbiddenError", "ResourceNotFoundError", "ValidationException", "InternalServerError"];
+  isOperationError(error: any): error is DeleteUserErrors {
+    const names: DeleteUserErrors['name'][] = ["ResourceNotFoundError", "UnauthorizedError", "ForbiddenError", "ValidationException", "InternalServerError"];
     return names.includes(error.name);
   };
 
-  serializeError(error: AuthErrors, ctx: ServerSerdeContext): Promise<__HttpResponse> {
+  serializeError(error: DeleteUserErrors, ctx: ServerSerdeContext): Promise<__HttpResponse> {
     switch (error.name) {
+      case "ResourceNotFoundError": {
+        return serializeResourceNotFoundErrorError(error, ctx);
+      }
       case "UnauthorizedError": {
         return serializeUnauthorizedErrorError(error, ctx);
       }
       case "ForbiddenError": {
         return serializeForbiddenErrorError(error, ctx);
-      }
-      case "ResourceNotFoundError": {
-        return serializeResourceNotFoundErrorError(error, ctx);
       }
       case "ValidationException": {
         return serializeValidationExceptionError(error, ctx);
@@ -104,18 +104,19 @@ export class AuthSerializer implements __OperationSerializer<IdentityService<any
 
 }
 
-export const getAuthHandler = <Context>(operation: __Operation<AuthServerInput, AuthServerOutput, Context>): __ServiceHandler<Context, __HttpRequest, __HttpResponse> => {
-  const mux = new httpbinding.HttpBindingMux<"Identity", "Auth">([
-    new httpbinding.UriSpec<"Identity", "Auth">(
-      'POST',
+export const getDeleteUserHandler = <Context>(operation: __Operation<DeleteUserServerInput, DeleteUserServerOutput, Context>): __ServiceHandler<Context, __HttpRequest, __HttpResponse> => {
+  const mux = new httpbinding.HttpBindingMux<"UserMgmt", "DeleteUser">([
+    new httpbinding.UriSpec<"UserMgmt", "DeleteUser">(
+      'DELETE',
       [
-        { type: 'path_literal', value: "auth" },
+        { type: 'path_literal', value: "user" },
+        { type: 'path' },
       ],
       [
       ],
-      { service: "Identity", operation: "Auth" }),
+      { service: "UserMgmt", operation: "DeleteUser" }),
   ]);
-  const customizer: __ValidationCustomizer<"Auth"> = (ctx, failures) => {
+  const customizer: __ValidationCustomizer<"DeleteUser"> = (ctx, failures) => {
     if (!failures) {
       return undefined;
     }
@@ -129,7 +130,7 @@ export const getAuthHandler = <Context>(operation: __Operation<AuthServerInput, 
       }))
     };
   };
-  return new AuthHandler(operation, mux, new AuthSerializer(), serializeFrameworkException, customizer);
+  return new DeleteUserHandler(operation, mux, new DeleteUserSerializer(), serializeFrameworkException, customizer);
 }
 
 const serdeContextBase = {
@@ -180,27 +181,27 @@ async function handle<S, O extends keyof S & string, Context>(
     return serializeFrameworkException(new __InternalFailureException(), serdeContextBase);
   }
 }
-export class AuthHandler<Context> implements __ServiceHandler<Context> {
-  private readonly operation: __Operation<AuthServerInput, AuthServerOutput, Context>;
-  private readonly mux: __Mux<"Identity", "Auth">;
-  private readonly serializer: __OperationSerializer<IdentityService<Context>, "Auth", AuthErrors>;
+export class DeleteUserHandler<Context> implements __ServiceHandler<Context> {
+  private readonly operation: __Operation<DeleteUserServerInput, DeleteUserServerOutput, Context>;
+  private readonly mux: __Mux<"UserMgmt", "DeleteUser">;
+  private readonly serializer: __OperationSerializer<UserMgmtService<Context>, "DeleteUser", DeleteUserErrors>;
   private readonly serializeFrameworkException: (e: __SmithyFrameworkException, ctx: __ServerSerdeContext) => Promise<__HttpResponse>;
-  private readonly validationCustomizer: __ValidationCustomizer<"Auth">;
+  private readonly validationCustomizer: __ValidationCustomizer<"DeleteUser">;
   /**
-   * Construct a Auth handler.
-   * @param operation The {@link __Operation} implementation that supplies the business logic for Auth
+   * Construct a DeleteUser handler.
+   * @param operation The {@link __Operation} implementation that supplies the business logic for DeleteUser
    * @param mux The {@link __Mux} that verifies which service and operation are being invoked by a given {@link __HttpRequest}
-   * @param serializer An {@link __OperationSerializer} for Auth that
+   * @param serializer An {@link __OperationSerializer} for DeleteUser that
    *                   handles deserialization of requests and serialization of responses
    * @param serializeFrameworkException A function that can serialize {@link __SmithyFrameworkException}s
    * @param validationCustomizer A {@link __ValidationCustomizer} for turning validation failures into {@link __SmithyFrameworkException}s
    */
   constructor(
-    operation: __Operation<AuthServerInput, AuthServerOutput, Context>,
-    mux: __Mux<"Identity", "Auth">,
-    serializer: __OperationSerializer<IdentityService<Context>, "Auth", AuthErrors>,
+    operation: __Operation<DeleteUserServerInput, DeleteUserServerOutput, Context>,
+    mux: __Mux<"UserMgmt", "DeleteUser">,
+    serializer: __OperationSerializer<UserMgmtService<Context>, "DeleteUser", DeleteUserErrors>,
     serializeFrameworkException: (e: __SmithyFrameworkException, ctx: __ServerSerdeContext) => Promise<__HttpResponse>,
-    validationCustomizer: __ValidationCustomizer<"Auth">
+    validationCustomizer: __ValidationCustomizer<"DeleteUser">
   ) {
     this.operation = operation;
     this.mux = mux;
@@ -211,9 +212,9 @@ export class AuthHandler<Context> implements __ServiceHandler<Context> {
   async handle(request: __HttpRequest, context: Context): Promise<__HttpResponse> {
     const target = this.mux.match(request);
     if (target === undefined) {
-      console.log('Received a request that did not match com.saasonaws#Identity.Auth. This indicates a misconfiguration.');
+      console.log('Received a request that did not match com.saasonaws#UserMgmt.DeleteUser. This indicates a misconfiguration.');
       return this.serializeFrameworkException(new __InternalFailureException(), serdeContextBase);
     }
-    return handle(request, context, "Auth", this.serializer, this.operation, this.serializeFrameworkException, AuthServerInput.validate, this.validationCustomizer);
+    return handle(request, context, "DeleteUser", this.serializer, this.operation, this.serializeFrameworkException, DeleteUserServerInput.validate, this.validationCustomizer);
   }
 }

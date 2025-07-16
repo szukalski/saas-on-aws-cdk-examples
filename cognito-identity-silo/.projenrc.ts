@@ -6,6 +6,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   projenrcTs: true,
   deps: [
     '@aws-sdk/client-cognito-identity-provider',
+    '@aws-sdk/client-cognito-identity-provider',
     '@aws-smithy/server-apigateway',
     '@aws-smithy/server-common',
     '@tsconfig/node18',

@@ -3,9 +3,20 @@ $version: "2.0"
 namespace com.saasonaws
 
 use aws.api#service
-use aws.auth#sigv4
 use aws.protocols#restJson1
+use aws.apigateway#authorizer
+use aws.apigateway#authorizers
 
+@httpApiKeyAuth(name: "Authorization", in: "header")
+@authorizers(
+    authy: {
+        scheme: httpApiKeyAuth
+        type: "token"
+        uri: "PLACEHOLDER"
+        identitySource: "method.request.header.Authorization",
+    }
+)
+@authorizer("authy")
 @title("UserMgmt")
 @restJson1
 @aws.apigateway#integration(
@@ -16,8 +27,7 @@ use aws.protocols#restJson1
     uri: "PLACEHOLDER"
     credentials: "PLACEHOLDER"
 )
-@sigv4(name: "execute-api")
-@service(sdkId: "UserMgmt", arnNamespace: "execute-api")
+@service(sdkId: "UserMgmt", arnNamespace: "user-mgmt")
 service UserMgmt {
     version: "2025-05-21"
     resources: [
@@ -44,7 +54,7 @@ resource User {
     properties: {
         role: UserRole
         password: String
-        tenantId: TenantId
+        tenant_id: TenantId
     }
     create: CreateUser
     read: ReadUser
@@ -65,7 +75,7 @@ structure UserSchema for User {
     @required
     $role
 
-    $tenantId
+    $tenant_id
 }
 
 list UserList {
@@ -113,7 +123,7 @@ operation ReadUser {
         @required
         $role
 
-        $tenantId
+        $tenant_id
     }
 
     errors: [

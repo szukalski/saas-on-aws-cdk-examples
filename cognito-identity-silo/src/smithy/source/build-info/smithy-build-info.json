@@ -172,9 +172,9 @@
     "traitNames": [
         "aws.api#arnReference",
         "aws.api#service",
+        "aws.apigateway#authorizer",
         "aws.apigateway#authorizers",
         "aws.apigateway#integration",
-        "aws.auth#sigv4",
         "aws.endpoints#endpointsModifier",
         "aws.protocols#restJson1",
         "smithy.api#authDefinition",

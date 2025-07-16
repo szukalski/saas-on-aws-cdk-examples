@@ -12,9 +12,9 @@
     "projection": {
         "abstract": false,
         "imports": [
-            "/home/ec2-user/saas-on-aws-cdk-examples/cognito-identity/model/__global.smithy",
-            "/home/ec2-user/saas-on-aws-cdk-examples/cognito-identity/model/authentication.smithy",
-            "/home/ec2-user/saas-on-aws-cdk-examples/cognito-identity/model/user-mgmt.smithy"
+            "/home/ec2-user/saas-on-aws-cdk-examples/cognito-identity-silo/model/__global.smithy",
+            "/home/ec2-user/saas-on-aws-cdk-examples/cognito-identity-silo/model/authentication.smithy",
+            "/home/ec2-user/saas-on-aws-cdk-examples/cognito-identity-silo/model/user-mgmt.smithy"
         ],
         "plugins": {
             "typescript-ssdk-codegen": {
@@ -189,9 +189,9 @@
     "traitNames": [
         "aws.api#arnReference",
         "aws.api#service",
+        "aws.apigateway#authorizer",
         "aws.apigateway#authorizers",
         "aws.apigateway#integration",
-        "aws.auth#sigv4",
         "aws.endpoints#endpointsModifier",
         "aws.protocols#restJson1",
         "smithy.api#authDefinition",
