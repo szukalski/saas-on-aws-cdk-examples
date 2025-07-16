@@ -13,6 +13,6 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   // devDeps: [],             /* Build dependencies for this module. */
   // packageName: undefined,  /* The "name" in package.json. */
 });
-project.tasks.tryFind('deploy')?.reset('cdk deploy --require-approval never ');
+project.tasks.tryFind('deploy')?.reset('cdk deploy --require-approval=never');
 project.tasks.tryFind('destroy')?.reset('cdk destroy --force ');
 project.synth();

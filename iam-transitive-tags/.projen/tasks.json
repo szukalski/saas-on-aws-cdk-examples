@@ -78,7 +78,7 @@
       "description": "Deploys your CDK app to the AWS cloud",
       "steps": [
         {
-          "exec": "cdk deploy --require-approval never "
+          "exec": "cdk deploy --require-approval=never"
         }
       ]
     },

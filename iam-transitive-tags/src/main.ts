@@ -61,6 +61,7 @@ export class MyStack extends Stack {
 
     const bucket = new Bucket(this, 'bobbyBucket', {
       removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
     });
 
     chainedRole.addToPolicy(
