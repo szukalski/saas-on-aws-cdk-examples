@@ -393,14 +393,14 @@ export namespace ListUserInput {
 export interface UserSchema {
   username: string | undefined;
   role: UserRole | undefined;
-  tenant_id?: string | undefined;
+  tenantId?: string | undefined;
 }
 
 export namespace UserSchema {
   const memberValidators : {
     username?: __MultiConstraintValidator<string>,
     role?: __MultiConstraintValidator<string>,
-    tenant_id?: __MultiConstraintValidator<string>,
+    tenantId?: __MultiConstraintValidator<string>,
   } = {};
   /**
    * @internal
@@ -428,8 +428,8 @@ export namespace UserSchema {
             ]);
             break;
           }
-          case "tenant_id": {
-            memberValidators["tenant_id"] = new __NoOpValidator();
+          case "tenantId": {
+            memberValidators["tenantId"] = new __NoOpValidator();
             break;
           }
         }
@@ -439,7 +439,7 @@ export namespace UserSchema {
     return [
       ...getMemberValidator("username").validate(obj.username, `${path}/username`),
       ...getMemberValidator("role").validate(obj.role, `${path}/role`),
-      ...getMemberValidator("tenant_id").validate(obj.tenant_id, `${path}/tenant_id`),
+      ...getMemberValidator("tenantId").validate(obj.tenantId, `${path}/tenantId`),
     ];
   }
 }
@@ -529,14 +529,14 @@ export namespace ReadUserInput {
 export interface ReadUserOutput {
   username: string | undefined;
   role: UserRole | undefined;
-  tenant_id?: string | undefined;
+  tenantId?: string | undefined;
 }
 
 export namespace ReadUserOutput {
   const memberValidators : {
     username?: __MultiConstraintValidator<string>,
     role?: __MultiConstraintValidator<string>,
-    tenant_id?: __MultiConstraintValidator<string>,
+    tenantId?: __MultiConstraintValidator<string>,
   } = {};
   /**
    * @internal
@@ -564,8 +564,8 @@ export namespace ReadUserOutput {
             ]);
             break;
           }
-          case "tenant_id": {
-            memberValidators["tenant_id"] = new __NoOpValidator();
+          case "tenantId": {
+            memberValidators["tenantId"] = new __NoOpValidator();
             break;
           }
         }
@@ -575,7 +575,7 @@ export namespace ReadUserOutput {
     return [
       ...getMemberValidator("username").validate(obj.username, `${path}/username`),
       ...getMemberValidator("role").validate(obj.role, `${path}/role`),
-      ...getMemberValidator("tenant_id").validate(obj.tenant_id, `${path}/tenant_id`),
+      ...getMemberValidator("tenantId").validate(obj.tenantId, `${path}/tenantId`),
     ];
   }
 }

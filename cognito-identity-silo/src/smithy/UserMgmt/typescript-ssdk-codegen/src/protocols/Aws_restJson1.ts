@@ -375,7 +375,7 @@ export const serializeReadUserResponse = async(
   let body: any;
   body = JSON.stringify(take(input, {
     'role': [],
-    'tenant_id': [],
+    'tenantId': [],
     'username': [],
   }));
   if (body && Object.keys(headers).map((str) => str.toLowerCase()).indexOf('content-length') === -1) {
@@ -671,7 +671,7 @@ const se_UserSchema = (
 ): any => {
   return take(input, {
     'role': [],
-    'tenant_id': [],
+    'tenantId': [],
     'username': [],
   });
 }

@@ -19,7 +19,7 @@ import {
 } from '../smithy/UserMgmt/typescript-ssdk-codegen/src';
 
 export interface UserMgmtContext extends AwsCredentialIdentity {
-  tenant_id: string;
+  tenantId: string;
   userPoolId: string;
 }
 
@@ -35,7 +35,7 @@ export class UserMgmtServiceImpl implements UserMgmtService<UserMgmtContext> {
       MessageAction: 'SUPPRESS',
       UserAttributes: [
         { Name: 'email', Value: input.username },
-        { Name: 'custom:tenant_id', Value: context.tenant_id },
+        { Name: 'custom:tenantId', Value: context.tenantId },
         { Name: 'custom:role', Value: input.role },
       ],
     };
@@ -104,20 +104,20 @@ export class UserMgmtServiceImpl implements UserMgmtService<UserMgmtContext> {
       const response = await client.send(getUserCommand);
 
       // Extract custom attributes
-      const tenantIdAttr = response.UserAttributes?.find(attr => attr.Name === 'custom:tenant_id');
+      const tenantIdAttr = response.UserAttributes?.find(attr => attr.Name === 'custom:tenantId');
       const roleAttr = response.UserAttributes?.find(attr => attr.Name === 'custom:role');
 
       // Ensure user belongs to the same tenant
-      if (tenantIdAttr?.Value !== context.tenant_id) {
+      if (tenantIdAttr?.Value !== context.tenantId) {
         throw new ResourceNotFoundError({
-          message: `User ${input.username} not found in tenant ${context.tenant_id}`,
+          message: `User ${input.username} not found in tenant ${context.tenantId}`,
         });
       }
 
       return {
         username: response.Username,
         role: roleAttr?.Value as any,
-        tenant_id: tenantIdAttr?.Value,
+        tenantId: tenantIdAttr?.Value,
       };
     } catch (error) {
       console.error('Error during read user:', error);
@@ -184,7 +184,7 @@ export class UserMgmtServiceImpl implements UserMgmtService<UserMgmtContext> {
       UserPoolId: context.userPoolId,
       Limit: input.maxResults || 50,
       PaginationToken: input.nextToken,
-      Filter: `custom:tenant_id = "${context.tenant_id}"${input.role ? ` AND custom:role = "${input.role}"` : ''}`,
+      Filter: `custom:tenantId = "${context.tenantId}"${input.role ? ` AND custom:role = "${input.role}"` : ''}`,
     };
     const listUsersCommand = new ListUsersCommand(listInput);
 
@@ -192,13 +192,13 @@ export class UserMgmtServiceImpl implements UserMgmtService<UserMgmtContext> {
       const response = await client.send(listUsersCommand);
 
       const users: UserSchema[] = response.Users?.map(user => {
-        const tenantIdAttr = user.Attributes?.find(attr => attr.Name === 'custom:tenant_id');
+        const tenantIdAttr = user.Attributes?.find(attr => attr.Name === 'custom:tenantId');
         const roleAttr = user.Attributes?.find(attr => attr.Name === 'custom:role');
 
         return {
           username: user.Username!,
           role: roleAttr?.Value as any,
-          tenant_id: tenantIdAttr?.Value,
+          tenantId: tenantIdAttr?.Value,
         };
       }) || [];
 

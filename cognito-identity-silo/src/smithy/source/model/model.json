@@ -2856,7 +2856,7 @@
                         "smithy.api#required": {}
                     }
                 },
-                "tenant_id": {
+                "tenantId": {
                     "target": "com.saasonaws#TenantId"
                 }
             },
@@ -2977,7 +2977,7 @@
                 "password": {
                     "target": "smithy.api#String"
                 },
-                "tenant_id": {
+                "tenantId": {
                     "target": "com.saasonaws#TenantId"
                 }
             },
@@ -3088,7 +3088,7 @@
                         "smithy.api#required": {}
                     }
                 },
-                "tenant_id": {
+                "tenantId": {
                     "target": "com.saasonaws#TenantId"
                 }
             },

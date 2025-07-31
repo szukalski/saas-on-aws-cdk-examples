@@ -54,7 +54,7 @@ resource User {
     properties: {
         role: UserRole
         password: String
-        tenant_id: TenantId
+        tenantId: TenantId
     }
     create: CreateUser
     read: ReadUser
@@ -75,7 +75,7 @@ structure UserSchema for User {
     @required
     $role
 
-    $tenant_id
+    $tenantId
 }
 
 list UserList {
@@ -123,7 +123,7 @@ operation ReadUser {
         @required
         $role
 
-        $tenant_id
+        $tenantId
     }
 
     errors: [

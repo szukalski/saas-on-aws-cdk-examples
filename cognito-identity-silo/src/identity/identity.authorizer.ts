@@ -5,7 +5,7 @@ import { InternalServerError } from '../smithy/Identity/typescript-ssdk-codegen/
 
 // Type the claims we need to see
 export interface MultiTenantCognitoJwtPayload extends JwtPayload {
-  'custom:tenant_id': string;
+  'custom:tenantId': string;
   'custom:role': string;
 }
 
@@ -51,7 +51,7 @@ export const handler: APIGatewayTokenAuthorizerHandler = async (event: APIGatewa
     // In production, you should verify the JWT signature
     // We expect the custom claims in the decoded JWT payload
     const decoded = jwtDecode<MultiTenantCognitoJwtPayload>(token);
-    if (!decoded || !decoded['custom:tenant_id'] || !decoded['custom:role']) {
+    if (!decoded || !decoded['custom:tenantId'] || !decoded['custom:role']) {
       throw new InternalServerError({ message: 'Invalid token or missing tenant information' });
     }
 
@@ -64,7 +64,7 @@ export const handler: APIGatewayTokenAuthorizerHandler = async (event: APIGatewa
       }],
     };
     const context: IdentityAPIGatewayAuthorizerResultContext = {
-      tenant_id: decoded['custom:tenant_id'],
+      tenantId: decoded['custom:tenantId'],
       role: decoded['custom:role'],
       userPoolClientId: userPoolClientId,
       userPoolId: userPoolId,
